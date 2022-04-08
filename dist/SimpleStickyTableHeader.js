@@ -37,7 +37,20 @@ function stickyTableHeader(table) {
   }
 
   function prepareHeader() {
+    var headArr = Array.from(thead.getElementsByTagName('tr'));
+
     thead.classList.add('sticky-table-head');
+    headArr.forEach(function (tr) {
+      var thArr = Array.from(tr.getElementsByTagName('th'));
+
+      thArr.forEach(function (th) {
+        var nodeEl = document.createElement('div');
+
+        th.classList.add('fake-div-wrapper');
+        nodeEl.classList.add('fake-div-border');
+        th.appendChild(nodeEl);
+      });
+    });
 
     var arr = Array.from(tbody.getElementsByTagName('tr'));
     if (arr.length > 0) {
