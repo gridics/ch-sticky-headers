@@ -30,7 +30,20 @@ function stickyTableHeader(table, inputOptions = {}) {
   }
 
   function prepareHeader() {
+    const headArr = Array.from(thead.getElementsByTagName('tr'));
+
     thead.classList.add('sticky-table-head');
+    headArr.forEach(function (tr) {
+      const thArr = Array.from(tr.getElementsByTagName('th'));
+
+      thArr.forEach(function (th) {
+        const nodeEl = document.createElement('div');
+
+        th.classList.add('fake-div-wrapper');
+        nodeEl.classList.add('fake-div-border');
+        th.appendChild(nodeEl);
+      });
+    });
 
     const arr = Array.from(tbody.getElementsByTagName('tr'));
     if (arr.length > 0) {
