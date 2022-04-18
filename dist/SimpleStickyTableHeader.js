@@ -43,6 +43,9 @@ function stickyTableHeader(table) {
     headArr.forEach(function (tr) {
       var thArr = Array.from(tr.getElementsByTagName('th'));
 
+      if (isVertical) {
+        tr.classList.add('sticky-table-column-header');
+      }
       thArr.forEach(function (th) {
         var nodeEl = document.createElement('div');
 
