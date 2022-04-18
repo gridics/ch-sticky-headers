@@ -36,6 +36,9 @@ function stickyTableHeader(table, inputOptions = {}) {
     headArr.forEach(function (tr) {
       const thArr = Array.from(tr.getElementsByTagName('th'));
 
+      if (isVertical) {
+        tr.classList.add('sticky-table-column-header');
+      }
       thArr.forEach(function (th) {
         const nodeEl = document.createElement('div');
 
