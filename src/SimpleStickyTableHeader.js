@@ -52,14 +52,25 @@ function stickyTableHeader(table, inputOptions = {}) {
   }
 
   function prepareFixedColumn() {
-    const arr = Array.from(tbody.getElementsByTagName('th'));
+    const arr = Array.from(tbody.getElementsByTagName('tr'));
 
     if (!arr.length) {
       return;
     }
 
     arr.forEach(function (tr) {
+      const thArr = Array.from(tr.getElementsByTagName('th'));
+
+      if(!thArr.length) {
+        return;
+      }
+
+      const nodeEl = document.createElement('div');
+
       tr.classList.add('sticky-table-column');
+      thArr[0].classList.add('fake-div-wrapper');
+      nodeEl.classList.add('fake-div-border');
+      thArr[0].appendChild(nodeEl);
     });
   }
 

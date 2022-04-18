@@ -59,14 +59,25 @@ function stickyTableHeader(table) {
   }
 
   function prepareFixedColumn() {
-    var arr = Array.from(tbody.getElementsByTagName('th'));
+    var arr = Array.from(tbody.getElementsByTagName('tr'));
 
     if (!arr.length) {
       return;
     }
 
     arr.forEach(function (tr) {
+      var thArr = Array.from(tr.getElementsByTagName('th'));
+
+      if (!thArr.length) {
+        return;
+      }
+
+      var nodeEl = document.createElement('div');
+
       tr.classList.add('sticky-table-column');
+      thArr[0].classList.add('fake-div-wrapper');
+      nodeEl.classList.add('fake-div-border');
+      thArr[0].appendChild(nodeEl);
     });
   }
 
