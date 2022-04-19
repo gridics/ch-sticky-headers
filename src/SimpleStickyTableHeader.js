@@ -15,6 +15,7 @@ function stickyTableHeader(table, inputOptions = {}) {
   const options = Object.assign({}, defaults, inputOptions);
   const isHorizontal = ['horizontal', 'both'].indexOf(options.mode) > -1;
   const isVertical = ['vertical', 'both'].indexOf(options.mode) > -1;
+  const colsToStick = [];
 
   if (!table) {
     return;
@@ -38,6 +39,9 @@ function stickyTableHeader(table, inputOptions = {}) {
 
       if (isVertical) {
         tr.classList.add('sticky-table-column-header');
+        colsToStick.forEach((thIndex) => {
+          thArr[thIndex].classList.add('sticky-column-cell');
+        });
       }
       thArr.forEach(function (th) {
         const nodeEl = document.createElement('div');
@@ -61,6 +65,12 @@ function stickyTableHeader(table, inputOptions = {}) {
       return;
     }
 
+    let index = 0;
+    while (arr[0].children[index].nodeName.toLowerCase() === 'th') {
+      colsToStick.push(index);
+      index++;
+    }
+
     arr.forEach(function (tr) {
       const thArr = Array.from(tr.getElementsByTagName('th'));
 
@@ -70,10 +80,14 @@ function stickyTableHeader(table, inputOptions = {}) {
 
       const nodeEl = document.createElement('div');
 
-      tr.classList.add('sticky-table-column');
-      thArr[0].classList.add('fake-div-wrapper');
       nodeEl.classList.add('fake-div-border');
-      thArr[0].appendChild(nodeEl);
+      tr.classList.add('sticky-table-column');
+
+      colsToStick.forEach((thIndex) => {
+        thArr[thIndex].classList.add('fake-div-wrapper');
+        thArr[thIndex].appendChild(nodeEl);
+        thArr[thIndex].classList.add('sticky-column-cell');
+      });
     });
   }
 
