@@ -66,7 +66,7 @@ function stickyTableHeader(table, inputOptions = {}) {
     }
 
     let index = 0;
-    while (arr[0].children[index].nodeName.toLowerCase() === 'th') {
+    while (arr[0].children[index] && (arr[0].children[index].nodeName.toLowerCase() === 'th')) {
       colsToStick.push(index);
       index++;
     }
