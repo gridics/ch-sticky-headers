@@ -98,14 +98,14 @@ function stickyTableHeader(table) {
     });
   }
 
-  // Prepare header with base styles and html.
-  if (isHorizontal && thead) {
-    prepareHeader();
-  }
-
   // Prepare vertical sticky column.
   if (isVertical && tbody) {
     prepareFixedColumn();
+  }
+
+  // Prepare header with base styles and html.
+  if (isHorizontal && thead) {
+    prepareHeader();
   }
 }
 
