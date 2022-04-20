@@ -66,7 +66,7 @@ function stickyTableHeader(table, inputOptions = {}) {
     }
 
     let index = 0;
-    while (arr[0].children[index].nodeName.toLowerCase() === 'th') {
+    while (arr[0].children[index] && (arr[0].children[index].nodeName.toLowerCase() === 'th')) {
       colsToStick.push(index);
       index++;
     }
@@ -91,14 +91,14 @@ function stickyTableHeader(table, inputOptions = {}) {
     });
   }
 
-  // Prepare header with base styles and html.
-  if (isHorizontal && thead) {
-    prepareHeader();
-  }
-
   // Prepare vertical sticky column.
   if (isVertical && tbody) {
     prepareFixedColumn();
+  }
+
+  // Prepare header with base styles and html.
+  if (isHorizontal && thead) {
+    prepareHeader();
   }
 }
 
