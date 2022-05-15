@@ -22,6 +22,7 @@ function stickyTableHeader(table) {
   var options = Object.assign({}, defaults, inputOptions);
   var isHorizontal = ['horizontal', 'both'].indexOf(options.mode) > -1;
   var isVertical = ['vertical', 'both'].indexOf(options.mode) > -1;
+  var colsToStick = [];
 
   if (!table) {
     return;
@@ -43,6 +44,12 @@ function stickyTableHeader(table) {
     headArr.forEach(function (tr) {
       var thArr = Array.from(tr.getElementsByTagName('th'));
 
+      if (isVertical) {
+        tr.classList.add('sticky-table-column-header');
+        colsToStick.forEach(function (thIndex) {
+          thArr[thIndex].classList.add('sticky-column-cell');
+        });
+      }
       thArr.forEach(function (th) {
         var nodeEl = document.createElement('div');
 
@@ -59,25 +66,46 @@ function stickyTableHeader(table) {
   }
 
   function prepareFixedColumn() {
-    var arr = Array.from(tbody.getElementsByTagName('th'));
+    var arr = Array.from(tbody.getElementsByTagName('tr'));
 
     if (!arr.length) {
       return;
     }
 
-    arr.forEach(function (tr) {
-      tr.classList.add('sticky-table-column');
-    });
-  }
+    var index = 0;
+    while (arr[0].children[index] && arr[0].children[index].nodeName.toLowerCase() === 'th') {
+      colsToStick.push(index);
+      index++;
+    }
 
-  // Prepare header with base styles and html.
-  if (isHorizontal && thead) {
-    prepareHeader();
+    arr.forEach(function (tr) {
+      var thArr = Array.from(tr.getElementsByTagName('th'));
+
+      if (!thArr.length) {
+        return;
+      }
+
+      var nodeEl = document.createElement('div');
+
+      nodeEl.classList.add('fake-div-border');
+      tr.classList.add('sticky-table-column');
+
+      colsToStick.forEach(function (thIndex) {
+        thArr[thIndex].classList.add('fake-div-wrapper');
+        thArr[thIndex].appendChild(nodeEl);
+        thArr[thIndex].classList.add('sticky-column-cell');
+      });
+    });
   }
 
   // Prepare vertical sticky column.
   if (isVertical && tbody) {
     prepareFixedColumn();
+  }
+
+  // Prepare header with base styles and html.
+  if (isHorizontal && thead) {
+    prepareHeader();
   }
 }
 

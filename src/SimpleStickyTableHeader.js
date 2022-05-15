@@ -15,6 +15,7 @@ function stickyTableHeader(table, inputOptions = {}) {
   const options = Object.assign({}, defaults, inputOptions);
   const isHorizontal = ['horizontal', 'both'].indexOf(options.mode) > -1;
   const isVertical = ['vertical', 'both'].indexOf(options.mode) > -1;
+  const colsToStick = [];
 
   if (!table) {
     return;
@@ -36,6 +37,12 @@ function stickyTableHeader(table, inputOptions = {}) {
     headArr.forEach(function (tr) {
       const thArr = Array.from(tr.getElementsByTagName('th'));
 
+      if (isVertical) {
+        tr.classList.add('sticky-table-column-header');
+        colsToStick.forEach((thIndex) => {
+          thArr[thIndex].classList.add('sticky-column-cell');
+        });
+      }
       thArr.forEach(function (th) {
         const nodeEl = document.createElement('div');
 
@@ -52,25 +59,46 @@ function stickyTableHeader(table, inputOptions = {}) {
   }
 
   function prepareFixedColumn() {
-    const arr = Array.from(tbody.getElementsByTagName('th'));
+    const arr = Array.from(tbody.getElementsByTagName('tr'));
 
     if (!arr.length) {
       return;
     }
 
-    arr.forEach(function (tr) {
-      tr.classList.add('sticky-table-column');
-    });
-  }
+    let index = 0;
+    while (arr[0].children[index] && (arr[0].children[index].nodeName.toLowerCase() === 'th')) {
+      colsToStick.push(index);
+      index++;
+    }
 
-  // Prepare header with base styles and html.
-  if (isHorizontal && thead) {
-    prepareHeader();
+    arr.forEach(function (tr) {
+      const thArr = Array.from(tr.getElementsByTagName('th'));
+
+      if(!thArr.length) {
+        return;
+      }
+
+      const nodeEl = document.createElement('div');
+
+      nodeEl.classList.add('fake-div-border');
+      tr.classList.add('sticky-table-column');
+
+      colsToStick.forEach((thIndex) => {
+        thArr[thIndex].classList.add('fake-div-wrapper');
+        thArr[thIndex].appendChild(nodeEl);
+        thArr[thIndex].classList.add('sticky-column-cell');
+      });
+    });
   }
 
   // Prepare vertical sticky column.
   if (isVertical && tbody) {
     prepareFixedColumn();
+  }
+
+  // Prepare header with base styles and html.
+  if (isHorizontal && thead) {
+    prepareHeader();
   }
 }
 
