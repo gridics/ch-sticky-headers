@@ -84,9 +84,11 @@ function stickyTableHeader(table, inputOptions = {}) {
       tr.classList.add('sticky-table-column');
 
       colsToStick.forEach((thIndex) => {
-        thArr[thIndex].classList.add('fake-div-wrapper');
-        thArr[thIndex].appendChild(nodeEl);
-        thArr[thIndex].classList.add('sticky-column-cell');
+        if (thArr[thIndex]) {
+          thArr[thIndex].classList.add('fake-div-wrapper');
+          thArr[thIndex].appendChild(nodeEl);
+          thArr[thIndex].classList.add('sticky-column-cell');
+        }
       });
     });
   }
