@@ -49,6 +49,13 @@ function stickyTableHeader(table, inputOptions = {}) {
         th.classList.add('fake-div-wrapper');
         nodeEl.classList.add('fake-div-border');
         th.appendChild(nodeEl);
+
+        // Fix accessibility: add aria-hidden to empty table headers
+        const text = th.textContent.trim();
+        const hasVisibleContent = text || th.querySelector('*:not(.fake-div-border)');
+        if (!hasVisibleContent) {
+          th.setAttribute('aria-hidden', 'true');
+        }
       });
     });
 
