@@ -1,0 +1,5 @@
+# Gitleaks configuration file
+# This file allows you to customize what Gitleaks detects
+
+[extend]
+useDefault = true
