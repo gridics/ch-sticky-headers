@@ -1,5 +1,10 @@
 name: gitleaks
 on: [pull_request, push, workflow_dispatch]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   scan:
     name: gitleaks
@@ -10,5 +15,5 @@ jobs:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN_DEPLOYMENT }}
+          GITHUB_TOKEN: ${{ github.token }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }} # Only required for Organizations, not personal accounts.
